@@ -1,0 +1,272 @@
+/* ===== Global Styles ===== */
+body {
+  background-color: #0f1117;
+  font-family: "Outfit", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  color: #f2f2f2;
+  margin: 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ===== Typography ===== */
+.fontT {
+  font-weight: 700;
+  font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+  color: #f5f5f5;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.fontO {
+  font-weight: 600;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: #dcdcdc;
+}
+
+.fontS {
+  font-weight: 500;
+  font-size: clamp(0.85rem, 0.9vw, 1rem);
+  color: #333;
+}
+
+/* ===== Layout ===== */
+.title {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.main {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 800px;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto auto;
+  gap: 25px;
+  padding: 0 10px;
+}
+
+/* ===== Sentence Display ===== */
+.sentence {
+  background-color: #1a1c24;
+  border-radius: 12px;
+  padding: clamp(15px, 3vw, 30px);
+  min-height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  line-height: 1.6;
+  color: #f1f1f1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  transition: all 0.3s ease;
+}
+
+.char {
+  white-space: pre;
+  transition: color 0.15s ease;
+}
+
+/* ===== Buttons ===== */
+.start {
+  display: flex;
+  justify-content: center;
+}
+
+.start button {
+  background-color: #3f75ff;
+  border: none;
+  border-radius: 8px;
+  padding: clamp(8px, 1.5vw, 14px) clamp(20px, 3vw, 35px);
+  font-size: clamp(0.9rem, 1vw, 1.1rem);
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(63, 117, 255, 0.3);
+  transition: all 0.25s ease;
+}
+
+.start button:hover {
+  background-color: #5a89ff;
+  transform: translateY(-2px);
+}
+
+/* ===== Results ===== */
+.speed,
+.accuracy {
+  text-align: center;
+  background-color: #181a22;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: clamp(0.95rem, 1vw, 1.1rem);
+  color: #cfcfcf;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== Settings ===== */
+.settings {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.point {
+  background-color: #3f75ff;
+  border-radius: 50%;
+  height: clamp(35px, 3vw, 45px);
+  width: clamp(35px, 3vw, 45px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.3vw, 1.3rem);
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(63, 117, 255, 0.3);
+  transition: all 0.25s ease;
+}
+
+.point:hover {
+  background-color: #5a89ff;
+  transform: scale(1.05);
+}
+
+/* ===== Dropdown Options ===== */
+.options {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #222430;
+  border-radius: 10px;
+  padding: 12px 18px;
+  width: 180px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.options label {
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  color: #f2f2f2;
+  margin: 5px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.options input[type="checkbox"] {
+  accent-color: #3f75ff;
+  transform: scale(1.1);
+  margin-right: 8px;
+}
+
+/* ===== Word Section Inside Options ===== */
+.word {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 5px;
+  color: white;
+}
+
+/* ===== Responsive ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .main {
+    max-width: 700px;
+  }
+
+  .sentence {
+    font-size: 1.2rem;
+  }
+
+  .options {
+    width: 160px;
+  }
+}
+
+/* Smartphones (Vertical) */
+@media (max-width: 768px) {
+  .main {
+    width: 95%;
+    gap: 18px;
+  }
+
+  .sentence {
+    font-size: 1rem;
+    padding: 20px;
+  }
+
+  .point {
+    height: 40px;
+    width: 40px;
+  }
+
+  .options {
+    width: 150px;
+    top: 55px;
+  }
+}
+
+/* Small Phones (Portrait) */
+@media (max-width: 480px) {
+  .title {
+    margin-top: 25px;
+    font-size: 1.6rem;
+  }
+
+  .main {
+    width: 100%;
+    margin-top: 25px;
+    gap: 15px;
+  }
+
+  .sentence {
+    min-height: 90px;
+    font-size: 0.95rem;
+    padding: 15px;
+  }
+
+  .speed,
+  .accuracy {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .options {
+    width: 130px;
+    top: 50px;
+  }
+
+  .start button {
+    padding: 10px 25px;
+  }
+}
+
+/* Large Displays (Monitors) */
+@media (min-width: 1400px) {
+  .main {
+    max-width: 1000px;
+  }
+
+  .sentence {
+    font-size: 1.6rem;
+    padding: 40px;
+  }
+
+  .speed,
+  .accuracy {
+    font-size: 1.2rem;
+  }
+}
