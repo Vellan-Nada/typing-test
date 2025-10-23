@@ -123,4 +123,23 @@ $(".start").click(function(){
     $(".five").prop("checked",false)
     $(".ten").prop("checked",false)
     $(".twenty").prop("checked",false)
+
 })
+
+// Always focus the hidden input when page loads
+$("#mobileInput").focus();
+
+// Refocus if user taps anywhere (to reopen keyboard)
+$(document).on("click touchstart", function() {
+    $("#mobileInput").focus();
+});
+
+// Listen to input instead of keypress for mobile
+$("#mobileInput").on("input", function(e) {
+    let val = $(this).val();
+    if (val.length > 0) {
+        let key = val[val.length - 1]; // get last typed character
+        $(document).trigger(jQuery.Event("keypress", { key: key }));
+        $(this).val(""); // clear after processing
+    }
+});
