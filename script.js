@@ -24,22 +24,15 @@ $(".capital").change(function () {
   generateSentence(Ccount);
 });
 
-$(".five").click(function () {
+$(".five, .ten, .twenty").click(function () {
   wstarted = 1;
   $(".cb").not(this).prop("checked", false);
-  generateSentence(5);
-});
 
-$(".ten").click(function () {
-  wstarted = 1;
-  $(".cb").not(this).prop("checked", false);
-  generateSentence(10);
-});
+  let count = 5;
+  if ($(this).hasClass("ten")) count = 10;
+  if ($(this).hasClass("twenty")) count = 20;
 
-$(".twenty").click(function () {
-  wstarted = 1;
-  $(".cb").not(this).prop("checked", false);
-  generateSentence(20);
+  generateSentence(count);
 });
 
 // ============================
@@ -56,15 +49,22 @@ async function generateSentence(count) {
     }
 
     sentence = words.join(" ") + ".";
-    const wordList = sentence.split("");
-    const changedWords = wordList.map(letter => `<span class="char">${letter}</span>`).join("");
-    $(".sentence").html(changedWords);
+    const chars = sentence.split("");
+    const html = chars.map(ch => `<span class="char">${ch}</span>`).join("");
+    $(".sentence").html(html);
+
+    currentIndex = 0;
+    correct = 0;
+    wrong = 0;
+    final = 0;
+    start = undefined;
 
     // focus hidden input to open mobile keyboard
-    $("#mobileInput").focus();
+    const input = $("#mobileInput");
+    input.val("").focus();
   } catch (error) {
     $(".sentence").text("Error loading sentence");
-    console.error("Fetch error:", error);
+    console.error(error);
   }
 }
 
@@ -76,13 +76,12 @@ function processKey(key) {
     sett = 1;
     $(".options").hide();
 
-    if (!start) start = new Date().getTime();
+    if (!start) start = Date.now();
 
-    let spans = $(".sentence span");
-
+    const spans = $(".sentence span");
     if (currentIndex < spans.length) {
-      let currentSpan = $(spans[currentIndex]);
-      let expectedChar = currentSpan.text();
+      const currentSpan = $(spans[currentIndex]);
+      const expectedChar = currentSpan.text();
 
       if (key === expectedChar) {
         currentSpan.css("color", "rgba(9, 196, 68, 1)");
@@ -97,13 +96,13 @@ function processKey(key) {
 
     if (currentIndex >= spans.length) {
       final = 1;
-      end = new Date().getTime();
+      end = Date.now();
       totalTime = Math.round((end - start) / 1000);
       accuracy = Math.round((correct / spans.length) * 100);
 
       $(".accuracy").text(`Typing Accuracy : ${accuracy}%`);
       $(".speed").text(`Typing Speed : ${totalTime}s`);
-      $("#mobileInput").blur(); // close keyboard on mobile
+      $("#mobileInput").blur(); // close keyboard
     }
   }
 }
@@ -112,28 +111,28 @@ function processKey(key) {
 // EVENT HANDLERS
 // ============================
 
-// Desktop typing
-$(document).on("keypress", function (event) {
-  processKey(event.key);
+// Desktop keypress
+$(document).on("keydown", function (event) {
+  if (event.key.length === 1) processKey(event.key);
 });
 
-// Mobile typing (using hidden input)
+// Mobile typing
 $("#mobileInput").on("input", function () {
-  let val = $(this).val();
+  const val = $(this).val();
   if (val.length > 0) {
-    let key = val[val.length - 1]; // get last typed char
+    const key = val.slice(-1); // last character typed
     processKey(key);
-    $(this).val(""); // clear after reading
+    $(this).val(""); // clear after processing
   }
 });
 
-// Focus hidden input if user taps anywhere
+// Always refocus mobile input
 $(document).on("click touchstart", function () {
   if (!final) $("#mobileInput").focus();
 });
 
 // ============================
-// RESET BUTTON
+// RESET
 // ============================
 $(".start").click(function () {
   sett = 0;
@@ -152,6 +151,5 @@ $(".start").click(function () {
   $(".accuracy").text("Typing Accuracy :");
   $(".speed").text("Typing Speed :");
   $(".capital, .five, .ten, .twenty").prop("checked", false);
-
-  $("#mobileInput").val("").focus(); // ready for next test
+  $("#mobileInput").val("").focus();
 });
