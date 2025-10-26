@@ -140,8 +140,11 @@ $(".start").click(function () {
 // MOBILE KEYBOARD HANDLING
 // ============================
 
-// Always focus the hidden input when page loads
-$("#mobileInput").focus();
+// Focus the hidden input only when typing actually starts
+$(document).on("keypress", function () {
+  if (!final) $("#mobileInput").focus();
+});
+
 
 // Refocus if user taps anywhere (to reopen keyboard)
 $(document).on("click touchstart", function () {
@@ -157,3 +160,4 @@ $("#mobileInput").on("input", function () {
     $(this).val(""); // clear input after processing
   }
 });
+
