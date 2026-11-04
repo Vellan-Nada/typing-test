@@ -48,23 +48,30 @@ $(".twenty").click(function(){
     generateSentence(20)
 })
 
-async function generateSentence(count){
+const WORDS = [
+    "the","be","to","of","and","a","in","that","have","it","for","not","on","with","he",
+    "as","you","do","at","this","but","his","by","from","they","we","say","her","she","or",
+    "an","will","my","one","all","would","there","their","what","so","up","out","if","about","who",
+    "get","which","go","me","when","make","can","like","time","no","just","him","know","take","people",
+    "into","year","your","good","some","could","them","see","other","than","then","now","look","only","come",
+    "its","over","think","also","back","after","use","two","how","our","work","first","well","way","even",
+    "new","want","because","any","these","give","day","most","us","is","was","are","been","has","had",
+    "were","said","did","made","find","here","thing","many","long","down","very","still","own","should","never",
+    "world","life","hand","part","child","eye","woman","place","week","case","point","number","group","problem","fact",
+    "house","water","light","river","mountain","garden","window","paper","music","story","friend","family","school","city","country",
+    "money","night","morning","dream","color","table","chair","phone","book","letter","road","train","plane","ocean","forest",
+    "happy","quick","bright","quiet","strong","small","large","early","late","simple","clear","warm","cold","green","blue",
+    "open","close","write","read","speak","listen","learn","teach","build","break","carry","change","follow","start","finish",
+    "run","walk","jump","swim","play","sing","dance","smile","laugh","travel","answer","question","remember","believe","create",
+    "always","often","sometimes","together","again","around","between","under","before","above","maybe","really","almost","enough","later"
+]
+
+function generateSentence(count){
     Ccount = count
-    const requestId = ++sentenceRequestId
+    ++sentenceRequestId
     isLoading = 1
-    $(".sentence").text("Loading...")
     try {
-        const response = await fetch(`https://random-word-api.vercel.app/api?words=${count}`)
-        if (!response.ok) {
-            throw new Error(`API request failed: ${response.status}`)
-        }
-        let words = await response.json()
-        if (requestId !== sentenceRequestId) {
-            return
-        }
-        if (!Array.isArray(words) || words.length === 0) {
-            throw new Error("No words returned")
-        }
+        let words = Array.from({ length: count }, () => WORDS[Math.floor(Math.random() * WORDS.length)])
         if (capital===1){
             words[0] = words[0][0].toUpperCase()+words[0].slice(1)
         }
@@ -96,12 +103,10 @@ async function generateSentence(count){
         isLoading = 0
 
     } catch (error) {
-        if (requestId === sentenceRequestId) {
-            $(".sentence").text("Error loading sentence")
-            console.error("Fetch error:",error)
-            isLoading = 0
-            $(".wpm").text("WPM")
-        }
+        $(".sentence").text("Error loading sentence")
+        console.error("Sentence error:",error)
+        isLoading = 0
+        $(".wpm").text("WPM")
     }
 }
 
